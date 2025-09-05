@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS {{ table }} (
+{% for c in columns -%}
+  {{ c.name }} {{ c.ch_type }}{% if not loop.last %},{% endif %}
+{% endfor -%}
+)
+ENGINE = MergeTree
+PARTITION BY {{ partition_by }}
+ORDER BY ({{ order_by | join(', ') }});

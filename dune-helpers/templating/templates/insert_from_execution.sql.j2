@@ -1,0 +1,11 @@
+INSERT INTO {{ table }} ({{ column_names | join(', ') }})
+SELECT
+{% for c in columns -%}
+  {{ c.cast_expr }} AS {{ c.name }}{% if not loop.last %},{% endif %}
+{% endfor %}
+FROM url(
+  'https://api.dune.com/api/v1/execution/{% raw %}{{DUNE_EXECUTION_ID}}{% endraw %}/results/csv',
+  'CSVWithNames',
+  '{{ csv_signature }}',
+  headers('X-Dune-Api-Key'='{% raw %}{{DUNE_API_KEY}}{% endraw %}')
+);

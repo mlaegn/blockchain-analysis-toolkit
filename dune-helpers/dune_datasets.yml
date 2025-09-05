@@ -1,0 +1,61 @@
+datasets:
+  prices:
+    dune:
+      query_id_full: 5701957
+      query_id_day:  5701962
+      param_query_id: 5723539
+      start_key: start_date
+      end_key:   end_date
+    clickhouse:
+      table: playground_max.gnosis_daily_bluechip_prices
+      partition_by: toStartOfMonth(block_date)
+      order_by: [symbol, block_date]
+    columns:
+      - name: block_date
+        source: block_date
+        ch_type: Date
+        parse: date          # date | datetime | float64 | uint64 | string
+        csv_type: String     # CSV signature type for ClickHouse URL()
+      - name: symbol
+        source: symbol
+        ch_type: LowCardinality(String)
+        parse: string
+        csv_type: String
+      - name: price
+        source: price
+        ch_type: Float64
+        parse: float64
+        csv_type: Float64
+
+  labels:
+    dune:
+      query_id_full: 5718056
+      query_id_day:  5718249
+      param_query_id: 5723577
+      start_key: start_dt
+      end_key:   end_dt
+    clickhouse:
+      table: playground_max.dune_labels
+      partition_by: toStartOfMonth(introduced_at)
+      order_by: [address, label, introduced_at]
+    columns:
+      - name: address
+        source: address
+        ch_type: String
+        parse: string
+        csv_type: String
+      - name: label
+        source: label
+        ch_type: String
+        parse: string
+        csv_type: String
+      - name: introduced_at
+        source: introduced_at
+        ch_type: DateTime
+        parse: datetime
+        csv_type: String
+      - name: source
+        source: source
+        ch_type: LowCardinality(String)
+        parse: string
+        csv_type: String
