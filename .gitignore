@@ -12,3 +12,6 @@
 
 # Ignore directories starting with '_'
 **/_*/
+
+#venv
+.venv
